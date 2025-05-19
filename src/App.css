@@ -103,13 +103,6 @@ body {
   background-color: var(--background-color);
 }
 
-.center-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100dvh;
-}
-
 .portal-wrapper {
   display: grid;
   grid-template-columns: 1fr;
