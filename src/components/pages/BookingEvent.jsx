@@ -3,17 +3,19 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 const BookingEvent = () => {
-  const { navigate } = useNavigate();
+  const navigate = useNavigate();
   const { id } = useParams();
   const [event, setEvent] = React.useState({});
-  const [formData, setFormData] = {
+  const [formData, setFormData] = useState({
     eventId: id,
     firstName: "",
     lastName: "",
     email: "",
+    street: "",
     city: "",
     postalCode: "",
-  };
+    ticketQuantity: 1,
+  });
 
   useEffect(() => {
     getEvents();
@@ -40,11 +42,10 @@ const BookingEvent = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await postBooking();
 
     try {
       const res = await fetch(
-        `https://bookingserviceventixe-a3dzg2fyc9hcc4dy.swedencentral-01.azurewebsites.net/api/bookings`,
+        `https://bookingservice-ventixe-czbphpafa4eyamb2.swedencentral-01.azurewebsites.net/api/bookings`,
         {
           method: "POST",
           headers: {
@@ -54,9 +55,9 @@ const BookingEvent = () => {
         }
       );
       if (!res.ok) {
-        console.error("Error posting booking data:", res.statusText);
+        console.error("Error posting booking data:");
       } else {
-        console.log("Booking successful:", data);
+        console.log("Booking successful:");
         navigate("/");
       }
     } catch (error) {
