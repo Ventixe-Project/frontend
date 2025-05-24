@@ -7,6 +7,7 @@ const EventDetails = () => {
   const { id } = useParams();
 
   const [event, setEvent] = useState({});
+  const [eventPackage, setEventPackage] = useState([]);
 
   const getEvents = async () => {
     const res = await fetch(
@@ -19,15 +20,46 @@ const EventDetails = () => {
     }
   };
 
+  const getPackages = async () => {
+    const res = await fetch(
+      `https://packageserviceventixe-gxd7f5h6dde3dxam.swedencentral-01.azurewebsites.net/api/packages?eventId=${id}`
+    );
+
+    if (res.ok) {
+      const response = await res.json();
+      setEventPackage(response.result);
+    }
+  };
+
   useEffect(() => {
     getEvents();
+    getPackages();
   }, []);
 
   return (
-    <div className="event-details">
-      <h1>{event.eventName}</h1>
-      <Link to={`/events/booking/${id}`}>Book event</Link>
-    </div>
+    <>
+      <div className="event-details">
+        <h1>{event.eventName}</h1>
+        <Link to={`/events/booking/${id}`}>Book event</Link>
+      </div>
+      <div className="event-packages">
+        <h2>Packages</h2>
+        <div className="packages-list">
+          {eventPackage && eventPackage.length > 0 ? (
+            eventPackage.map((pkg) => (
+              <div key={pkg.id} className="package-item">
+                <h3>{pkg.packageName}</h3>
+                <p>{pkg.type}</p>
+                <p>{pkg.description}</p>
+                <p>Price: ${pkg.price}</p>
+              </div>
+            ))
+          ) : (
+            <p>No packages available for this event.</p>
+          )}
+        </div>
+      </div>
+    </>
   );
 };
 
