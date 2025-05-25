@@ -34,12 +34,12 @@ const EventDetails = () => {
   useEffect(() => {
     getEvents();
     getPackages();
-  }, []);
+  }, [id]);
 
   return (
     <>
       <div className="event-details">
-        <h1>{event.eventName}</h1>
+        <h1>{event?.eventName || "Loading event..."}</h1>
         <Link to={`/events/booking/${id}`}>Book event</Link>
       </div>
       <div className="event-packages">

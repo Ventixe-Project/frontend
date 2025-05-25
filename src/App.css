@@ -45,16 +45,16 @@
   --text-color: var(--gray-100);
   --text-muted-color: var(--grey-60);
   --background-color: var(--grey-10);
-  --nav-background-color: var(--cool-grey-20);
+  --nav-background-color: var(--cool-grey-10);
   --main-background-color: var(--grey-20);
-  --header-background-color: var(--cool-grey-20);
-  --footer-background-color: var(--cool-grey-20);
+  --header-background-color: var(--grey-20);
+  --footer-background-color: var(--grey-20);
   --section-background-color: var(--grey-20);
   --border-color: var(--grey-40);
   --separator-border-color: var(--grey-40);
   --separator-background-color: var(--grey-10);
   --separator-text-color: var(--grey-60);
-  --link-color: var(--primary-100);
+  --link-color: var(--secondary-110);
   --link-hover-color: var(--primary-90);
   --card-background-color: var(--grey-10);
   --card-border-color: var(--grey-20);
@@ -91,6 +91,213 @@
   --checkbox-checked-background-color: var(--primary-100);
   --checkbox-checked-border-color: var(--primary-100);
   --checkbox-checked-text-color: var(--grey-10);
+
+  /* Heading Styles */
+  --h1-size: 32px;
+  --h1-weight-semibold: 600;
+  --h1-weight-bold: 700;
+
+  --h2-size: 28px;
+  --h2-weight-semibold: 600;
+  --h2-weight-bold: 700;
+
+  --h3-size: 26px;
+  --h3-weight-semibold: 600;
+  --h3-weight-bold: 700;
+
+  --h4-size: 24px;
+  --h4-weight-regular: 500;
+  --h4-weight-semibold: 600;
+  --h4-weight-bold: 700;
+
+  --h5-size: 22px;
+  --h5-weight-semibold: 600;
+  --h5-weight-bold: 700;
+
+  --h6-size: 20px;
+  --h6-weight-semibold: 600;
+  --h6-weight-bold: 700;
+
+  /* Title Text Styles */
+  --title-18-size: 18px;
+  --title-18-weight-medium: 500;
+  --title-18-weight-semibold: 600;
+  --title-18-weight-bold: 700;
+
+  --title-16-size: 16px;
+  --title-16-weight-regular: 400;
+  --title-16-weight-medium: 500;
+  --title-16-weight-semibold: 600;
+  --title-16-weight-bold: 700;
+
+  --title-14-size: 14px;
+  --title-14-weight-regular: 400;
+  --title-14-weight-medium: 500;
+  --title-14-weight-semibold: 600;
+  --title-14-weight-bold: 700;
+
+  --title-12-size: 12px;
+  --title-12-weight-medium: 500;
+  --title-12-weight-semibold: 600;
+  --title-12-weight-bold: 700;
+
+  --title-11-size: 11px;
+  --title-11-weight-regular: 400;
+  --title-11-weight-medium: 500;
+  --title-11-weight-semibold: 600;
+  --title-11-weight-bold: 700;
+
+  --title-10-size: 10px;
+  --title-10-weight-regular: 400;
+  --title-10-weight-semibold: 600;
+  --title-10-weight-bold: 700;
+
+  /* Body Text Styles */
+  --body-16-size: 16px;
+  --body-16-weight-regular: 400;
+  --body-16-weight-medium: 500;
+  --body-16-weight-semibold: 600;
+  --body-16-weight-bold: 700;
+
+  --body-14-size: 14px;
+  --body-14-weight-regular: 400;
+  --body-14-weight-medium: 500;
+  --body-14-weight-semibold: 600;
+  --body-14-weight-bold: 700;
+
+  --body-12-size: 12px;
+  --body-12-weight-regular: 400;
+  --body-12-weight-medium: 500;
+  --body-12-weight-semibold: 600;
+  --body-12-weight-bold: 700;
+
+  --body-11-size: 11px;
+  --body-11-weight-regular: 400;
+  --body-11-weight-medium: 500;
+  --body-11-weight-semibold: 600;
+  --body-11-weight-bold: 700;
+
+  --body-10-size: 10px;
+  --body-10-weight-regular: 400;
+  --body-10-weight-medium: 500;
+  --body-10-weight-semibold: 600;
+  --body-10-weight-bold: 700;
+
+  /* Button Text Styles */
+  --btn-14-size: 14px;
+  --btn-14-weight-medium: 500;
+  --btn-14-weight-semibold: 600;
+
+  --btn-12-size: 12px;
+  --btn-12-weight-medium: 500;
+  --btn-12-weight-semibold: 600;
+
+  --btn-10-size: 10px;
+  --btn-10-weight-medium: 500;
+  --btn-10-weight-semibold: 600;
+}
+
+/* Typography */
+
+/* Headings */
+h1 {
+  font-size: var(--h1-size);
+  font-weight: var(--h1-weight-bold);
+  line-height: 1.25;
+}
+
+h2 {
+  font-size: var(--h2-size);
+  font-weight: var(--h2-weight-bold);
+  line-height: 1.3;
+}
+
+h3 {
+  font-size: var(--h3-size);
+  font-weight: var(--h3-weight-bold);
+  line-height: 1.35;
+}
+
+h4 {
+  font-size: var(--h4-size);
+  font-weight: var(--h4-weight-bold);
+  line-height: 1.4;
+}
+
+h5 {
+  font-size: var(--h5-size);
+  font-weight: var(--h5-weight-bold);
+  line-height: 1.45;
+}
+
+h6 {
+  font-size: var(--h6-size);
+  font-weight: var(--h6-weight-bold);
+  line-height: 1.5;
+}
+
+/* Paragraphs and body text */
+p {
+  font-size: var(--body-16-size);
+  font-weight: var(--body-16-weight-regular);
+  line-height: 1.6;
+  margin: 0 0 1rem 0;
+}
+
+small {
+  font-size: var(--body-12-size);
+  font-weight: var(--body-12-weight-regular);
+  line-height: 1.5;
+}
+
+/* Buttons */
+button,
+.button {
+  font-size: var(--btn-14-size);
+  font-weight: var(--btn-14-weight-semibold);
+  font-family: var(--font);
+  line-height: 1.25;
+  cursor: pointer;
+}
+
+/* Optional links */
+.nav-link {
+  font-size: var(--body-14-size);
+  font-weight: var(--body-14-weight-medium);
+  text-decoration: none;
+  color: var(--link-color);
+  width: 100%;
+  padding: 0px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  gap: 12px;
+}
+
+.nav-link:hover {
+  color: var(--link-hover-color);
+}
+
+.nav-link.active {
+  color: var(--primary-100);
+  font-weight: var(--body-14-weight-semibold);
+}
+
+/* Optional: titles within components */
+.title-lg {
+  font-size: var(--title-18-size);
+  font-weight: var(--title-18-weight-bold);
+}
+
+.title-md {
+  font-size: var(--title-16-size);
+  font-weight: var(--title-16-weight-semibold);
+}
+
+.title-sm {
+  font-size: var(--title-14-size);
+  font-weight: var(--title-14-weight-medium);
 }
 
 html,
@@ -108,6 +315,8 @@ body {
   grid-template-columns: 1fr;
   grid-template-rows: auto 1fr auto;
   grid-template-areas: "nav" "main" "footer";
+  padding: 0.75rem;
+  gap: 0.75rem;
   height: 100dvh;
 
   @media (min-width: 768px) {
@@ -115,7 +324,7 @@ body {
     grid-template-rows: auto 1fr auto;
     grid-template-areas: "nav header" "nav main" "nav footer";
   }
-  @media (min-width: 1400px) {
+  @media (min-width: 2160px) {
     grid-template-columns: 80px 1fr;
     grid-template-rows: auto 1fr auto;
     grid-template-areas: "nav header" "nav main" "nav footer";
@@ -126,15 +335,91 @@ nav {
   grid-area: nav;
   background-color: var(--nav-background-color);
   border-radius: 1rem;
-  padding: 1.5rem;
+  padding: 1.5rem 0px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.nav-logo-link {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 2rem;
+}
+
+.nav-logo-link.active {
+  color: var(--link-color);
+}
+
+.nav-logo-link:hover {
+  color: var(--link-color);
+}
+
+.nav-logo-link h4 {
+  font-size: var(--h4-size);
+  font-weight: var(--h4-weight-semibold);
+  margin: 0;
+  font-weight: var(--h4-weight-regular);
 }
 
 header {
   grid-area: header;
   background-color: var(--header-background-color);
   border-radius: 1rem;
-  padding: 1.5rem;
+  padding: 1rem 1.5rem;
 }
+
+.header-text-container {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 2px;
+  padding-bottom: 4px;
+  flex-direction: column;
+}
+
+.header-text-container .header-title-row {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+}
+
+.header-text-container .header-title-row span {
+  color: #636365;
+}
+
+.header-text-container h4 {
+  font-size: var(--h4-size);
+  font-weight: var(--h4-weight-semibold);
+  color: var(--headline-color);
+  margin: 0;
+}
+
+.breadcrumb {
+  font-size: var(--body-14-size);
+  font-weight: var(--body-14-weight-medium);
+  color: var(--text-muted-color);
+  margin-bottom: 0.25rem;
+  display: flex;
+  flex-direction: row;
+  background-color: transparent;
+  padding: 2px 0px;
+  gap: 4px;
+}
+
+.breadcrumb-link {
+  color: var(--primary-100);
+  text-decoration: none;
+  padding: 2px 0px;
+}
+
+.breadcrumb-link:hover {
+  color: var(--link-hover-color);
+  text-decoration: none;
+}
+
 main {
   grid-area: main;
   background-color: var(--main-background-color);
@@ -146,4 +431,12 @@ footer {
   background-color: var(--footer-background-color);
   border-radius: 1rem;
   padding: 1.5rem;
+  padding: 1rem 1.5rem;
+}
+
+footer small {
+  font-size: var(--title-12-size);
+  font-weight: var(--title-12-weight-semibold);
+  color: var(--grey-70);
+  line-height: 130%;
 }

@@ -21,7 +21,6 @@ const EventList = () => {
 
   return (
     <section id="events">
-      <h2>Events</h2>
       {events.map((event) => (
         <EventItem key={event.id} item={event} />
       ))}
