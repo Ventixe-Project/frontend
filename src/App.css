@@ -429,7 +429,7 @@ main {
   border-radius: 1rem;
   display: flex;
   flex-direction: column;
-gap: 1.5rem;
+  gap: 1.5rem;
   padding: 1rem;
 }
 
@@ -438,8 +438,6 @@ gap: 1.5rem;
   margin: 0 auto;
   width: 100%;
 }
-
-
 
 .event-details {
   background-color: var(--background-color);
@@ -457,9 +455,9 @@ gap: 1.5rem;
   align-items: flex-start;
 }
 
-.event-header h4{
+.event-header h4 {
   margin: 0;
-  margin-bottom: .375rem;
+  margin-bottom: 0.375rem;
 }
 
 .event-header.text {
@@ -467,8 +465,8 @@ gap: 1.5rem;
   flex-direction: column;
 }
 
-.event-header p{
-  margin-top: .25rem;
+.event-header p {
+  margin-top: 0.25rem;
   margin-bottom: 0;
 }
 
@@ -640,7 +638,7 @@ gap: 1.5rem;
   flex-direction: column;
   cursor: pointer;
   margin-bottom: 1rem;
-  gap: .625rem;
+  gap: 0.625rem;
 }
 
 .package-item span {
@@ -694,7 +692,6 @@ gap: 1.5rem;
   margin: 0;
 }
 
-
 .package-details {
   display: flex;
   flex-direction: row;
@@ -726,6 +723,95 @@ gap: 1.5rem;
 .package-description {
   display: flex;
   gap: 4px;
+}
+
+#events {
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100dvh;
+}
+
+#events a {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+}
+
+.event-image-container {
+  position: relative;
+}
+
+#events img {
+  border-radius: 12px;
+}
+
+.event-category {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background-color: #ffffffcc;
+  opacity: 0.8;
+  color: var(--secondary-100);
+  padding: 4px 10px;
+  border-radius: 22px;
+  font-size: var(--title-11-size);
+  font-weight: var(--title-11-weight-medium);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  cursor:default;
+}
+
+#events .event-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0.75rem;
+  background: var(--background-color);
+  border-radius: 16px;
+  max-width: 600px;
+}
+
+#events .event-card {
+  display: flex;
+  flex-direction: row;
+  background-color: var(--background-color);
+  border-radius: 16px;
+  justify-content: space-between;
+}
+
+#events .event-header h4 {
+  margin-bottom: 0;
+}
+
+#events .event-header.text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+#events .event-header .event-date,
+.event-location {
+  margin: 0;
+  font-size: var(--title-11-size);
+  font-weight: var(--title-11-weight-regular);
+}
+
+#event .header-title {
+  font-size: var(--title-16-size);
+  font-weight: var(--title-16-weight-semibold);
+}
+
+#events .event-header.booking {
+  justify-content: flex-start;
+  display: flex;
+  flex-direction: column;
+}
+
+#events .event-header.booking p {
+  color: var(--primary-100);
+  font-size: var(--title-18-size);
+  font-weight: var(--title-18-weight-semibold);
+  line-height: 120%;
 }
 
 footer {

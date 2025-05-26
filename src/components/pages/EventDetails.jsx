@@ -49,118 +49,118 @@ const EventDetails = () => {
   return (
     <>
       <div className="event-card">
-
+        <div className="event-image-container">
           <img
             className="event-image"
             src={event.eventImage}
             alt={event.eventName}
           />
-          <div className="event-details">
-            <div className="event-header">
-              <div className="event-header text">
-                <h4 className="event-title">
-                  {event?.eventName || "Loading event..."}
-                </h4>
-                <p className="event-date">
-                  <span className="material-symbols-outlined">event</span>
-                  {event?.eventDate
-                    ? `${new Date(event.eventDate).toLocaleDateString("en-US", {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                      })} — ${new Date(event.eventDate).toLocaleTimeString(
-                        "en-US",
-                        {
-                          hour: "2-digit",
-                          minute: "2-digit",
-                          hour12: true,
-                        }
-                      )}`
-                    : "No date available."}
+          <span className="event-category">
+            {event.eventCategory}</span>
+        </div>
+        <div className="event-details">
+          <div className="event-header">
+            <div className="event-header text">
+              <h4 className="event-title">
+                {event?.eventName || "Loading event..."}
+              </h4>
+              <p className="event-date">
+                <span className="material-symbols-outlined">event</span>
+                {event?.eventDate
+                  ? `${new Date(event.eventDate).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })} — ${new Date(event.eventDate).toLocaleTimeString(
+                      "en-US",
+                      {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        hour12: true,
+                      }
+                    )}`
+                  : "No date available."}
+              </p>
+              <p className="event-location">
+                <span className="material-symbols-outlined">location_on</span>
+                {event?.eventLocation || "No location available."}
+              </p>
+            </div>
+            <div className="event-header booking">
+              <button className="event-booking-button">
+                <span className="material-symbols-outlined">
+                  event_available
+                </span>
+                <Link to={`/events/booking/${id}`}>Book event</Link>
+              </button>
+              <div className="eventprice">
+                <p>
+                  {selectedPackage && selectedPackage.id !== cheapestPackage.id
+                    ? "Selected package"
+                    : "Starts from"}
                 </p>
-                <p className="event-location">
-                  <span className="material-symbols-outlined">location_on</span>
-                  {event?.eventLocation || "No location available."}
-                </p>
-              </div>
-              <div className="event-header booking">
-                <button className="event-booking-button">
-                  <span className="material-symbols-outlined">
-                    event_available
-                  </span>
-                  <Link to={`/events/booking/${id}`}>Book event</Link>
-                </button>
-                <div className="eventprice">
-                  <p>
-                    {selectedPackage &&
-                    selectedPackage.id !== cheapestPackage.id
-                      ? "Selected package"
-                      : "Starts from"}
-                  </p>
-                  <h6>
-                    {selectedPackage
-                      ? `$${selectedPackage.price}`
-                      : cheapestPackage
-                      ? `$${cheapestPackage.price}`
-                      : "Free"}
-                  </h6>
-                </div>
+                <h6>
+                  {selectedPackage
+                    ? `$${selectedPackage.price}`
+                    : cheapestPackage
+                    ? `$${cheapestPackage.price}`
+                    : "Free"}
+                </h6>
               </div>
             </div>
-            <hr className="event-divider" />
-
-            <p className="about-event">About Event</p>
-            <p className="event-description">
-              {event?.eventDescription || "No description available."}
-            </p>
           </div>
+          <hr className="event-divider" />
+
+          <p className="about-event">About Event</p>
+          <p className="event-description">
+            {event?.eventDescription || "No description available."}
+          </p>
         </div>
+      </div>
 
       <div className="event-packages-container">
-
-          <p>Packages</p>
-          <div className="packages-list">
-            {eventPackage && eventPackage.length > 0 ? (
-              eventPackage
-                .sort((a, b) => a.price - b.price)
-                .map((pkg) => (
-                  <div
-                    key={pkg.id}
-                    className={`package-item ${
-                      selectedPackage?.id === pkg.id ? "selected" : ""
-                    }`}
-                    onClick={() =>
-                      selectedPackage?.id === pkg.id
-                        ? setSelectedPackage(null)
-                        : setSelectedPackage(pkg)
-                    }
-                  >
-                    <div className="package-header">
-                      <p>{pkg.packageName}</p>
-                      <p className="package-price">${pkg.price}</p>
+        <p>Packages</p>
+        <div className="packages-list">
+          {eventPackage && eventPackage.length > 0 ? (
+            eventPackage
+              .sort((a, b) => a.price - b.price)
+              .map((pkg) => (
+                <div
+                  key={pkg.id}
+                  className={`package-item ${
+                    selectedPackage?.id === pkg.id ? "selected" : ""
+                  }`}
+                  onClick={() =>
+                    selectedPackage?.id === pkg.id
+                      ? setSelectedPackage(null)
+                      : setSelectedPackage(pkg)
+                  }
+                >
+                  <div className="package-header">
+                    <p>{pkg.packageName}</p>
+                    <p className="package-price">${pkg.price}</p>
+                  </div>
+                  <div className="package-details">
+                    <div className="package-type">
+                      <span className="material-symbols-outlined">
+                        check_circle
+                      </span>
+                      <p>{pkg.type}</p>
                     </div>
-                    <div className="package-details">
-                      <div className="package-type">
-                        <span className="material-symbols-outlined">
-                          check_circle
-                        </span>
-                        <p>{pkg.type}</p>
-                      </div>
-                      <div className="package-description">
-                        <span className="material-symbols-outlined">
-                          check_circle
-                        </span>
-                        <p>{pkg.description}</p>
-                      </div>
+                    <div className="package-description">
+                      <span className="material-symbols-outlined">
+                        check_circle
+                      </span>
+                      <p>{pkg.description}</p>
                     </div>
                   </div>
-                ))
-            ) : (
-              <p>No packages available for this event.</p>
-            )}
-          </div>
+                </div>
+              ))
+          ) : (
+            <p>No packages available for this event.</p>
+          )}
         </div>
-
+      </div>
     </>
   );
 };

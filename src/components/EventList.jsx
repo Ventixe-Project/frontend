@@ -20,11 +20,13 @@ const EventList = () => {
   }, []);
 
   return (
-    <section id="events">
-      {events.map((event) => (
-        <EventItem key={event.id} item={event} />
-      ))}
-    </section>
+    <>
+      <section id="events">
+        {events.map((event) => (
+          <EventItem key={event.id} item={event} />
+        ))}
+      </section>
+    </>
   );
 };
 
