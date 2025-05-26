@@ -137,13 +137,13 @@ const EventDetails = () => {
                   </div>
                   <div className="package-details">
                     <div className="package-type">
-                      <span class="material-symbols-outlined">
+                      <span className="material-symbols-outlined">
                         check_circle
                       </span>
                       <p>{pkg.type}</p>
                     </div>
                     <div className="package-description">
-                      <span class="material-symbols-outlined">
+                      <span className="material-symbols-outlined">
                         check_circle
                       </span>
                       <p>{pkg.description}</p>
