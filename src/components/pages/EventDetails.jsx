@@ -8,6 +8,9 @@ const EventDetails = () => {
 
   const [event, setEvent] = useState({});
   const [eventPackage, setEventPackage] = useState([]);
+  const [selectedPackage, setSelectedPackage] = useState(null);
+  const sortedPackages = [...eventPackage].sort((a, b) => a.price - b.price);
+  const cheapestPackage = sortedPackages[0];
 
   const getEvents = async () => {
     const res = await fetch(
@@ -35,6 +38,13 @@ const EventDetails = () => {
     getEvents();
     getPackages();
   }, [id]);
+
+  useEffect(() => {
+    if (eventPackage && eventPackage.length > 0) {
+      const sorted = [...eventPackage].sort((a, b) => a.price - b.price);
+      setSelectedPackage(sorted[0]);
+    }
+  }, [eventPackage]);
 
   return (
     <>
@@ -80,9 +90,17 @@ const EventDetails = () => {
                 <Link to={`/events/booking/${id}`}>Book event</Link>
               </button>
               <div className="eventprice">
-                <p>Starts from</p>
+                <p>
+                  {selectedPackage && selectedPackage.id !== cheapestPackage.id
+                    ? "Selected package"
+                    : "Starts from"}
+                </p>
                 <h6>
-                  {eventPackage?.packagePrice ? `$${event.eventPrice}` : "Free"}
+                  {selectedPackage
+                    ? `$${selectedPackage.price}`
+                    : cheapestPackage
+                    ? `$${cheapestPackage.price}`
+                    : "Free"}
                 </h6>
               </div>
             </div>
@@ -95,18 +113,44 @@ const EventDetails = () => {
           </p>
         </div>
       </div>
-      <div className="event-packages">
-        <h2>Packages</h2>
+      <div className="event-packages-container">
+        <p>Packages</p>
         <div className="packages-list">
           {eventPackage && eventPackage.length > 0 ? (
-            eventPackage.map((pkg) => (
-              <div key={pkg.id} className="package-item">
-                <h3>{pkg.packageName}</h3>
-                <p>{pkg.type}</p>
-                <p>{pkg.description}</p>
-                <p>Price: ${pkg.price}</p>
-              </div>
-            ))
+            eventPackage
+              .sort((a, b) => a.price - b.price)
+              .map((pkg) => (
+                <div
+                  key={pkg.id}
+                  className={`package-item ${
+                    selectedPackage?.id === pkg.id ? "selected" : ""
+                  }`}
+                  onClick={() =>
+                    selectedPackage?.id === pkg.id
+                      ? setSelectedPackage(null)
+                      : setSelectedPackage(pkg)
+                  }
+                >
+                  <div className="package-header">
+                    <p>{pkg.packageName}</p>
+                    <p className="package-price">${pkg.price}</p>
+                  </div>
+                  <div className="package-details">
+                    <div className="package-type">
+                      <span class="material-symbols-outlined">
+                        check_circle
+                      </span>
+                      <p>{pkg.type}</p>
+                    </div>
+                    <div className="package-description">
+                      <span class="material-symbols-outlined">
+                        check_circle
+                      </span>
+                      <p>{pkg.description}</p>
+                    </div>
+                  </div>
+                </div>
+              ))
           ) : (
             <p>No packages available for this event.</p>
           )}
