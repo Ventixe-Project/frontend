@@ -1,5 +1,4 @@
 const SearchBar = ({ query, setQuery }) => (
-  <div className="search-bar-container">
     <form className="search-bar-form" onSubmit={(e) => e.preventDefault()}>
       <input
         type="text"
@@ -10,7 +9,6 @@ const SearchBar = ({ query, setQuery }) => (
       />
       <span className="material-symbols-outlined">search</span>
     </form>
-  </div>
 );
 
 export default SearchBar;

@@ -1,10 +1,16 @@
 import { useEffect, useState } from "react";
 import EventList from "../EventList";
 import SearchBar from "../SearchBar";
+import CategoryDropdown from "../CategoryDropdown";
+
+const categories = [
+  "Music", "Fashion", "Outdoor & Adventure", "Technology", "Health & Wellness"
+];
 
 const EventPage = () => {
   const [events, setEvents] = useState([]);
   const [query, setQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   useEffect(() => {
     fetch(
@@ -14,20 +20,28 @@ const EventPage = () => {
       .then((data) => setEvents(data.result || []));
   }, []);
 
-  const filteredEvents = (Array.isArray(events) ? events : []).filter(
-    (event) => {
-      const name = event.eventName ? event.eventName.toLowerCase() : "";
-      const location = event.eventLocation
-        ? event.eventLocation.toLowerCase()
-        : "";
-      const search = query.toLowerCase();
-      return name.includes(search) || location.includes(search);
-    }
-  );
+  const filteredEvents = events.filter((event) => {
+    const search = query.toLowerCase();
+    const matchesQuery =
+      event.eventName.toLowerCase().includes(search) ||
+      event.eventLocation.toLowerCase().includes(search);
+
+    const matchesCategory =
+      !selectedCategory || event.eventCategory === selectedCategory;
+
+    return matchesQuery && matchesCategory;
+  });
 
   return (
     <>
-      <SearchBar query={query} setQuery={setQuery} />
+      <div className="search-bar-row">
+        <SearchBar query={query} setQuery={setQuery} />
+        <CategoryDropdown
+          categories={categories}
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+        />
+      </div>
       <EventList events={filteredEvents} />
       {filteredEvents.length === 0 && query && (
         <p className="no-results">No results found for "{query}"</p>

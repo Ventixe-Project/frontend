@@ -433,9 +433,83 @@ main {
   padding: 1rem;
 }
 
-.search-bar-container{
+.search-bar-row {
   display: flex;
   justify-content: flex-end;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.category-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-toggle {
+  background: var(--cool-grey-10);
+  border-radius: 36px;
+  border: none;
+  color: var(--secondary-100);
+  font-size: var(--btn-12-size);
+  font-weight: var(--btn-12-weight-medium);
+  padding: 8px 12px 8px 14px;
+  height: 36px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  transition: background 0.15s;
+}
+
+.chevron {
+  font-size: 18px;
+  color: var(--secondary-100);
+  pointer-events: none;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 115%;
+  right: 0%;
+  background: var(--nav-background-color);
+
+  border-radius: 16px;
+  box-shadow: 0 8px 32px 0 #b673ca33, 0 1.5px 4px 0 #0001;
+  z-index: 99;
+  padding: 8px 8px 8px 10px;
+  margin: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.dropdown-menu li {
+  padding: 10px 24px;
+  cursor: pointer;
+  font-size: var(--body-12-size);
+  font-weight: 500;
+  color: var(--secondary-100);
+  border-radius: 10px;
+  transition: background 0.12s, color 0.12s;
+}
+
+.dropdown-menu li:hover,
+.dropdown-menu li:focus {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 2px 8px #b673ca15;
+}
+
+.dropdown-menu li:hover {
+  background-color: var(--cool-grey-30);
+}
+
+.dropdown-menu li.active,
+.dropdown-menu li:focus {
+  background-color: var(--primary-90);
+  color: var(--grey-10);
 }
 
 .search-bar-form {
@@ -445,7 +519,7 @@ main {
   width: 237px;
   align-items: center;
   justify-content: space-around;
-  padding: 0.5rem 0.75rem;
+  height: 36px;
 }
 
 .search-bar-form input {
@@ -778,6 +852,16 @@ main {
   width: 100%;
 }
 
+#events a:hover .event-wrapper {
+  transform: scale(1.025);
+  background: var(--cool-grey-10);
+  box-shadow: 0 6px 32px 0 #c9b7eb22;
+}
+
+#events a:hover .event-card {
+  background: var(--cool-grey-10);
+}
+
 .event-image-container {
   position: relative;
 }
@@ -799,6 +883,13 @@ main {
   font-weight: var(--title-11-weight-medium);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   backdrop-filter: blur(4px);
+}
+
+#events .event-wrapper,
+#events .event-card {
+  transition: background 0.18s cubic-bezier(0.4, 2, 0.3, 1),
+    transform 0.18s cubic-bezier(0.4, 2, 0.3, 1),
+    box-shadow 0.18s cubic-bezier(0.4, 2, 0.3, 1);
 }
 
 #events .event-wrapper {
