@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 
 const EventDetails = () => {
   const { id } = useParams();
-
   const [event, setEvent] = useState({});
   const [eventPackage, setEventPackage] = useState([]);
   const [selectedPackage, setSelectedPackage] = useState(null);
