@@ -314,20 +314,20 @@ body {
 .portal-wrapper {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: auto auto auto;
   grid-template-areas: "nav" "main" "footer";
   gap: 0.75rem;
   min-height: 100dvh;
 
   @media (min-width: 768px) {
     grid-template-columns: 250px 1fr;
-    grid-template-rows: auto 1fr auto;
+    grid-template-rows: auto auto auto;
     grid-template-areas: "nav header" "nav main" "nav footer";
   }
 
   @media (min-width: 3840px) {
     grid-template-columns: 80px 1fr;
-    grid-template-rows: auto 1fr auto;
+    grid-template-rows: auto auto auto;
     grid-template-areas: "nav header" "nav main" "nav footer";
   }
 }
@@ -369,6 +369,7 @@ header {
   background-color: var(--header-background-color);
   border-radius: 1rem;
   padding: 1rem 1.5rem;
+  max-height: 92px;
 }
 
 .header-text-container {
@@ -819,6 +820,7 @@ main {
   color: var(--grey-80);
   opacity: 1;
   margin: 0;
+  text-wrap: nowrap;
 }
 
 .package-price {
@@ -952,6 +954,7 @@ main {
   align-items: center;
   justify-content: space-between;
   margin-top: auto;
+  margin-bottom: 1.5rem;
 }
 
 .pagination-row span {
@@ -1010,8 +1013,8 @@ main {
 .pagination-arrow {
   border: none;
   border-radius: 30px;
-  padding: 6px 10px;
-  font-size: 1rem;
+  font-size: var(--btn-10-size);
+  font-weight: var(--btn-10-weight-medium);
   cursor: pointer;
   transition: background 0.15s, color 0.15s;
   width: 30px;
@@ -1039,6 +1042,10 @@ main {
   color: var(--grey-10);
 }
 
+.pagination-arrow.right.active span {
+  color: var(--grey-10);
+}
+
 .pagination-arrow span {
   font-size: 20px;
   color: var(--grey-100);
@@ -1057,7 +1064,6 @@ main {
   color: var(--grey-10);
   font-size: var(--btn-10-size);
   font-weight: var(--btn-10-weight-medium);
-  line-height: 100%;
 }
 .pagination-page:hover,
 .pagination-arrow:not(:disabled):hover {
@@ -1072,6 +1078,8 @@ footer {
   background-color: var(--footer-background-color);
   border-radius: 1rem;
   padding: 1rem 1.5rem;
+  max-height: 52px;
+  align-self: flex-end;
 }
 
 footer small {

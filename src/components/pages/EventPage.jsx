@@ -11,7 +11,8 @@ const categories = [
   "Technology",
   "Health & Wellness",
   "Art & Design",
-  "Food & Culinary"
+  "Food & Culinary",
+  "Sustainability & Environment",
 ];
 
 const ITEMS_PER_PAGE_OPTIONS = [8, 12, 16, 24];
@@ -67,7 +68,7 @@ const EventPage = () => {
       {filteredEvents.length === 0 && query && (
         <p className="no-results">No results found for "{query}"</p>
       )}
-        <EventList events={paginatedEvents} />
+      <EventList events={paginatedEvents} />
       <div className="pagination-row">
         <div className="pagination-showing">
           <span>Showing</span>
