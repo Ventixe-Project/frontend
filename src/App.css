@@ -947,6 +947,126 @@ main {
   line-height: 120%;
 }
 
+.pagination-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+}
+
+.pagination-row span {
+  font-size: var(--title-14-size);
+  font-weight: var(--title-14-weight-regular);
+  color: var(--Grey-Grey-70, #777779);
+  line-height: 125%;
+}
+
+.pagination-select-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.pagination-select {
+  border-radius: 36px;
+  border: 1px solid var(--grey-40);
+  padding: 8px 0px 8px 12px;
+  font-size: var(--btn-12-size);
+  font-weight: var(--btn-12-weight-medium);
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: none;
+  position: relative;
+  width: 45px;
+}
+
+.pagination-select:focus {
+  outline: none;
+}
+
+.pagination-select-chevron {
+  position: absolute;
+  left: 23px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 20px; /* Adjust size as needed */
+  color: var(--secondary-100);
+}
+
+.pagination-showing {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pagination-page,
+.pagination-arrow {
+  border: none;
+  border-radius: 30px;
+  padding: 6px 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  width: 30px;
+  height: 30px;
+  background: var(--cool-grey-10);
+  color: var(--secondary-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: none;
+}
+
+.pagination-page:not(.active):hover,
+.pagination-arrow:not(:disabled):hover {
+  background: var(--primary-50);
+}
+
+.pagination-arrow {
+  background: #eeeeef;
+  color: var(--secondary-100);
+}
+
+.pagination-arrow.right {
+  background: var(--secondary-100);
+  color: var(--grey-10);
+}
+
+.pagination-arrow span {
+  font-size: 20px;
+  color: var(--grey-100);
+  pointer-events: none;
+}
+
+.pagination-arrow:disabled {
+  background: var(--grey-30);
+  color: var(--grey-60);
+  cursor: not-allowed;
+  opacity: 1;
+}
+
+.pagination-page.active {
+  background: var(--primary-100);
+  color: var(--grey-10);
+  font-size: var(--btn-10-size);
+  font-weight: var(--btn-10-weight-medium);
+  line-height: 100%;
+}
+.pagination-page:hover,
+.pagination-arrow:not(:disabled):hover {
+  background: var(--primary-50);
+}
+.pagination-arrow:disabled {
+  cursor: not-allowed;
+}
+
 footer {
   grid-area: footer;
   background-color: var(--footer-background-color);

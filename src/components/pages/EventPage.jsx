@@ -2,15 +2,26 @@ import { useEffect, useState } from "react";
 import EventList from "../EventList";
 import SearchBar from "../SearchBar";
 import CategoryDropdown from "../CategoryDropdown";
+import Pagination from "../Pagination";
 
 const categories = [
-  "Music", "Fashion", "Outdoor & Adventure", "Technology", "Health & Wellness"
+  "Music",
+  "Fashion",
+  "Outdoor & Adventure",
+  "Technology",
+  "Health & Wellness",
+  "Art & Design",
+  "Food & Culinary"
 ];
+
+const ITEMS_PER_PAGE_OPTIONS = [8, 12, 16, 24];
 
 const EventPage = () => {
   const [events, setEvents] = useState([]);
   const [query, setQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(8);
 
   useEffect(() => {
     fetch(
@@ -32,6 +43,17 @@ const EventPage = () => {
     return matchesQuery && matchesCategory;
   });
 
+  const totalPages = Math.ceil(filteredEvents.length / itemsPerPage);
+
+  const paginatedEvents = filteredEvents.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [itemsPerPage]);
+
   return (
     <>
       <div className="search-bar-row">
@@ -42,10 +64,37 @@ const EventPage = () => {
           setSelectedCategory={setSelectedCategory}
         />
       </div>
-      <EventList events={filteredEvents} />
       {filteredEvents.length === 0 && query && (
         <p className="no-results">No results found for "{query}"</p>
       )}
+        <EventList events={paginatedEvents} />
+      <div className="pagination-row">
+        <div className="pagination-showing">
+          <span>Showing</span>
+          <div className="pagination-select-wrapper">
+            <select
+              value={itemsPerPage}
+              onChange={(e) => setItemsPerPage(Number(e.target.value))}
+              className="pagination-select"
+            >
+              {ITEMS_PER_PAGE_OPTIONS.map((opt) => (
+                <option key={opt} value={opt}>
+                  {opt}
+                </option>
+              ))}
+            </select>
+            <span className="pagination-select-chevron material-symbols-outlined">
+              keyboard_arrow_down
+            </span>
+          </div>
+          <span>out of {filteredEvents.length}</span>
+        </div>
+        <Pagination
+          totalPages={totalPages}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
+      </div>
     </>
   );
 };
