@@ -54,8 +54,7 @@ const EventDetails = () => {
             src={event.eventImage}
             alt={event.eventName}
           />
-          <span className="event-category">
-            {event.eventCategory}</span>
+          <span className="event-category">{event.eventCategory}</span>
         </div>
         <div className="event-details">
           <div className="event-header">
@@ -90,7 +89,13 @@ const EventDetails = () => {
                 <span className="material-symbols-outlined">
                   event_available
                 </span>
-                <Link to={`/events/booking/${id}`}>Book event</Link>
+                <Link
+                  to={`/events/booking/${id}?packageId=${
+                    selectedPackage?.id || cheapestPackage?.id
+                  }`}
+                >
+                  Book event
+                </Link>
               </button>
               <div className="eventprice">
                 <p>

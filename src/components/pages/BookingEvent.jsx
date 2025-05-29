@@ -1,9 +1,15 @@
 import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 const BookingEvent = () => {
+  
   const navigate = useNavigate();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search)
+  const packageId = queryParams.get("packageId")
+
+  const [selectedPackage, setSelectedPackage] = useState(null);
   const { id } = useParams();
   const [event, setEvent] = React.useState({});
   const [formData, setFormData] = useState({
@@ -15,7 +21,16 @@ const BookingEvent = () => {
     city: "",
     postalCode: "",
     ticketQuantity: 1,
+    packageId: packageId || "",
   });
+
+  const areAllFieldsFilled =
+    formData.firstName !== "" &&
+    formData.lastName !== "" &&
+    formData.email !== "" &&
+    formData.street !== "" &&
+    formData.city !== "" &&
+    formData.postalCode !== "";
 
   useEffect(() => {
     getEvents();
@@ -34,6 +49,36 @@ const BookingEvent = () => {
       console.error("Error fetching event data:", error);
     }
   };
+
+  useEffect(() => {
+    if (packageId) {
+      fetchPackageDetails(packageId);
+    }
+  }, [packageId]);
+
+  useEffect(() => {
+    if (selectedPackage) {
+      setFormData((prev) => ({
+        ...prev,
+        packageId: selectedPackage.id,
+price: selectedPackage.price
+      }));
+    }
+  }, [selectedPackage]);
+
+  const fetchPackageDetails = async (packageId) => {
+    const res = await fetch(
+      `https://packageserviceventixe-gxd7f5h6dde3dxam.swedencentral-01.azurewebsites.net/api/packages/${packageId}`
+    );
+    if (res.ok) {
+      const data = await res.json();
+      setSelectedPackage(data.result);
+    } else {
+      setSelectedPackage(null);
+      console.error("Package fetch failed", res.status);
+    }
+  };
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -66,11 +111,11 @@ const BookingEvent = () => {
   };
 
   return (
-    <div>
-      <h1>Book Event - {event.eventName}</h1>
-      <div>
+    <div className="booking-wrapper">
+      <div className="booking-forms">
+        <h1>Book Event - {event.eventName}</h1>
         <form onSubmit={handleSubmit} noValidate>
-          <div>
+          <div className="booking-form-field">
             <label>First Name</label>
             <input
               type="text"
@@ -80,7 +125,7 @@ const BookingEvent = () => {
               required
             />
           </div>
-          <div>
+          <div className="booking-form-field">
             <label>Last Name</label>
             <input
               type="text"
@@ -90,7 +135,7 @@ const BookingEvent = () => {
               required
             />
           </div>
-          <div>
+          <div className="booking-form-field">
             <label>Email</label>
             <input
               type="email"
@@ -100,7 +145,7 @@ const BookingEvent = () => {
               required
             />
           </div>
-          <div>
+          <div className="booking-form-field">
             <label>Street</label>
             <input
               type="text"
@@ -110,7 +155,7 @@ const BookingEvent = () => {
               required
             />
           </div>
-          <div>
+          <div className="booking-form-field">
             <label>City</label>
             <input
               type="text"
@@ -120,7 +165,7 @@ const BookingEvent = () => {
               required
             />
           </div>
-          <div>
+          <div className="booking-form-field">
             <label>Postal Code</label>
             <input
               type="text"
@@ -130,8 +175,64 @@ const BookingEvent = () => {
               required
             />
           </div>
-          <button type="submit">Book Event</button>
+          <button
+            className="booking-submit"
+            type="submit"
+            disabled={!areAllFieldsFilled}
+          >
+            Book Now!
+          </button>
         </form>
+      </div>
+
+      <div className="booking-summary-card">
+        <p className="booking-summary-header">Booking summary</p>
+        <div className="booking-summary-details">
+          <div className="summary-row">
+            <div className="booking-summary-details img">
+              {event.eventImage && (
+                <div className="summary-event-image">
+                  <img src={event.eventImage} alt={event.eventName} />
+                </div>
+              )}
+            </div>
+          </div>
+          <div className="summary-row">
+            <span className="summary-label">Event:</span>
+            <span className="summary-value">{event.eventName || "-"}</span>
+          </div>
+
+          <div className="summary-row">
+            <span className="summary-label">Date & Time:</span>
+            <span className="summary-value">
+              {event.eventDate
+                ? new Date(event.eventDate).toLocaleString()
+                : "-"}
+            </span>
+          </div>
+          <div className="summary-row">
+            <span className="summary-label">Ticket:</span>
+            <span className="summary-value">{selectedPackage?.packageName || "-"}</span>
+          </div>
+          <div className="summary-row">
+            <span className="summary-label">Price:</span>
+            <span className="summary-value">
+              {selectedPackage?.price ? `$${selectedPackage.price}` : "-"}
+            </span>
+          </div>
+          <div className="summary-row">
+            <span className="summary-label">Quantity:</span>
+            <span className="summary-value">{formData.ticketQuantity}</span>
+          </div>
+          <div className="summary-row summary-total">
+            <span className="summary-label">Total:</span>
+            <span className="summary-value">
+            {selectedPackage?.price
+      ? `$${(selectedPackage.price * formData.ticketQuantity).toFixed(2)}`
+      : "-"}
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   );
