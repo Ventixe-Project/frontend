@@ -111,130 +111,218 @@ price: selectedPackage.price
   };
 
   return (
-    <div className="booking-wrapper">
-      <div className="booking-forms">
-        <h1>Book Event - {event.eventName}</h1>
-        <form onSubmit={handleSubmit} noValidate>
-          <div className="booking-form-field">
-            <label>First Name</label>
-            <input
-              type="text"
-              name="firstName"
-              value={formData.firstName}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="booking-form-field">
-            <label>Last Name</label>
-            <input
-              type="text"
-              name="lastName"
-              value={formData.lastName}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="booking-form-field">
-            <label>Email</label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="booking-form-field">
-            <label>Street</label>
-            <input
-              type="text"
-              name="street"
-              value={formData.street}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="booking-form-field">
-            <label>City</label>
-            <input
-              type="text"
-              name="city"
-              value={formData.city}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="booking-form-field">
-            <label>Postal Code</label>
-            <input
-              type="text"
-              name="postalCode"
-              value={formData.postalCode}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <button
-            className="booking-submit"
-            type="submit"
-            disabled={!areAllFieldsFilled}
-          >
-            Book Now!
-          </button>
-        </form>
-      </div>
-
-      <div className="booking-summary-card">
-        <p className="booking-summary-header">Booking summary</p>
-        <div className="booking-summary-details">
-          <div className="summary-row">
-            <div className="booking-summary-details img">
-              {event.eventImage && (
-                <div className="summary-event-image">
-                  <img src={event.eventImage} alt={event.eventName} />
-                </div>
-              )}
+    <>
+      <h1 className="booking-page-title">Book your ticket</h1>
+      <p className="booking-page-subtitle">
+        Secure your spot. Instant confirmation!
+      </p>
+      <div className="booking-wrapper">
+        <div className="booking-forms">
+          <h1>Book Event</h1>
+          <form onSubmit={handleSubmit} noValidate>
+            <div className="booking-form-field">
+              <input
+                type="text"
+                name="firstName"
+                value={formData.firstName}
+                placeholder="First Name"
+                onChange={handleChange}
+                required
+              />
             </div>
-          </div>
-          <div className="summary-row">
-            <span className="summary-label">Event:</span>
-            <span className="summary-value">{event.eventName || "-"}</span>
-          </div>
+            <div className="booking-form-field">
+              <input
+                type="text"
+                name="lastName"
+                value={formData.lastName}
+                placeholder="Last Name"
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="booking-form-field">
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                placeholder="Email"
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="booking-form-field">
+              <input
+                type="text"
+                name="street"
+                value={formData.street}
+                placeholder="Street"
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="booking-form-field">
+              <input
+                type="text"
+                name="city"
+                value={formData.city}
+                placeholder="City"
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="booking-form-field">
+              <input
+                type="text"
+                name="postalCode"
+                value={formData.postalCode}
+                placeholder="Postal Code"
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="booking-form-field quantity-field">
+              <label htmlFor="ticketQuantity">Ticket Quantity</label>
+              <div className="quantity-input-wrapper">
+                <button
+                  type="button"
+                  className="quantity-btn"
+                  onClick={() =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      ticketQuantity: Math.max(1, prev.ticketQuantity - 1),
+                    }))
+                  }
+                  aria-label="Decrease quantity"
+                >
+                  –
+                </button>
+                <input
+                  type="number"
+                  id="ticketQuantity"
+                  name="ticketQuantity"
+                  min={1}
+                  max={10}
+                  value={formData.ticketQuantity}
+                  onChange={handleChange}
+                  className="quantity-input"
+                />
+                <button
+                  type="button"
+                  className="quantity-btn"
+                  onClick={() =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      ticketQuantity: Math.min(10, prev.ticketQuantity + 1),
+                    }))
+                  }
+                  aria-label="Increase quantity"
+                >
+                  +
+                </button>
+              </div>
+            </div>
 
-          <div className="summary-row">
-            <span className="summary-label">Date & Time:</span>
-            <span className="summary-value">
-              {event.eventDate
-                ? new Date(event.eventDate).toLocaleString()
-                : "-"}
-            </span>
+            <button
+              className="booking-submit"
+              type="submit"
+              disabled={!areAllFieldsFilled}
+            >
+              Book Now
+            </button>
+          </form>
+          <div className="secure-booking">
+            <span class="material-symbols-outlined">lock</span>
+            <p>Your booking is secure</p>
           </div>
-          <div className="summary-row">
-            <span className="summary-label">Ticket:</span>
-            <span className="summary-value">{selectedPackage?.packageName || "-"}</span>
-          </div>
-          <div className="summary-row">
-            <span className="summary-label">Price:</span>
-            <span className="summary-value">
-              {selectedPackage?.price ? `$${selectedPackage.price}` : "-"}
-            </span>
-          </div>
-          <div className="summary-row">
-            <span className="summary-label">Quantity:</span>
-            <span className="summary-value">{formData.ticketQuantity}</span>
-          </div>
-          <div className="summary-row summary-total">
-            <span className="summary-label">Total:</span>
-            <span className="summary-value">
-            {selectedPackage?.price
-      ? `$${(selectedPackage.price * formData.ticketQuantity).toFixed(2)}`
-      : "-"}
-            </span>
+        </div>
+
+        <div className="booking-summary-card">
+          <p className="booking-summary-header">Booking summary</p>
+          <div className="booking-summary-details">
+            <div className="summary-row">
+              <div className="booking-summary-details img">
+                {event.eventImage && (
+                  <div className="summary-event-image">
+                    <img src={event.eventImage} alt={event.eventName} />
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className="summary-row">
+              <span className="summary-label">Event:</span>
+              <span className="summary-value">{event.eventName || "-"}</span>
+            </div>
+
+            <div className="summary-row">
+              <span className="summary-label">Date & Time:</span>
+              <span className="summary-value">
+                {event.eventDate
+                  ? `${new Date(event.eventDate).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })} — ${new Date(event.eventDate).toLocaleTimeString(
+                      "en-US",
+                      {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        hour12: true,
+                      }
+                    )}`
+                  : "-"}
+              </span>
+            </div>
+            <div className="summary-row">
+              <span className="summary-label">Ticket:</span>
+              <span className="summary-value ticket">
+                {selectedPackage?.packageName &&
+                  selectedPackage.packageName.toLowerCase().includes("vip") && (
+                    <span className="vip-badge">
+                      <span className="material-symbols-outlined check">
+                        check
+                      </span>
+                      VIP
+                    </span>
+                  )}
+                {selectedPackage?.packageName &&
+                  !selectedPackage.packageName.toLowerCase().includes("vip") &&
+                  ["ultimate", "all-inclusive"].some((tier) =>
+                    selectedPackage.packageName.toLowerCase().includes(tier)
+                  ) && (
+                    <span className="premium-badge">
+                      <span className="material-symbols-outlined check">
+                        check
+                      </span>
+                      Exclusive
+                    </span>
+                  )}
+                <span>{selectedPackage?.packageName || "-"}</span>
+              </span>
+            </div>
+            <div className="summary-row">
+              <span className="summary-label">Price:</span>
+              <span className="summary-value">
+                {selectedPackage?.price ? `$${selectedPackage.price}` : "-"}
+              </span>
+            </div>
+            <div className="summary-row">
+              <span className="summary-label">Quantity:</span>
+              <span className="summary-value">{formData.ticketQuantity}</span>
+            </div>
+            <div className="summary-row summary-total">
+              <span className="summary-label">Total:</span>
+              <span className="summary-value">
+                {selectedPackage?.price
+                  ? `$${(
+                      selectedPackage.price * formData.ticketQuantity
+                    ).toFixed(2)}`
+                  : "-"}
+              </span>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

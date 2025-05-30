@@ -2,8 +2,12 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
+
 
 const EventDetails = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const [event, setEvent] = useState({});
   const [eventPackage, setEventPackage] = useState([]);
@@ -85,17 +89,20 @@ const EventDetails = () => {
               </p>
             </div>
             <div className="event-header booking">
-              <button className="event-booking-button">
+              <button
+                className="event-booking-button"
+                onClick={() =>
+                  navigate(
+                    `/events/booking/${id}?packageId=${
+                      selectedPackage?.id || cheapestPackage?.id
+                    }`
+                  )
+                }
+              >
                 <span className="material-symbols-outlined">
                   event_available
                 </span>
-                <Link
-                  to={`/events/booking/${id}?packageId=${
-                    selectedPackage?.id || cheapestPackage?.id
-                  }`}
-                >
-                  Book event
-                </Link>
+                Book event
               </button>
               <div className="eventprice">
                 <p>
