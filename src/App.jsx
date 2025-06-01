@@ -4,6 +4,7 @@ import EventDetails from "./components/pages/EventDetails";
 import { Route, Routes } from "react-router-dom";
 import BookingEvent from "./components/pages/BookingEvent";
 import Layout from "./components/layouts/Layout";
+import BookingConfirmationPage from "./components/pages/BookingConfirmationPage";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route index element={<EventPage />} />
         <Route path="events/:id" element={<EventDetails />} />
         <Route path="events/booking/:id" element={<BookingEvent />} />
+        <Route path="booking/confirmation/:bookingId" element={<BookingConfirmationPage />} />
       </Route>
     </Routes>
   );

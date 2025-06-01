@@ -47,7 +47,25 @@ function Header() {
         <span>Event Details</span>
       </>
     );
-  } else {
+  } 
+  else if(pathname.startsWith("/booking/confirmation")){
+    arrowBack = (
+      <Link to="/" className="arrow-back-link">
+        <span className="material-symbols-outlined">arrow_back</span>
+      </Link>
+    );
+    headerText = "Order Confirmation";
+    breadcrumb = (
+      <>
+        <Link to="/" className="breadcrumb-link">
+          Events
+        </Link>
+        {" / "}
+        <span>Order Confirmation</span>
+      </>
+    );
+  }
+  else {
     headerText = "Page Not Found";
   }
 

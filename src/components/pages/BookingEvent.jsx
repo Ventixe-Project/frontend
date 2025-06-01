@@ -3,15 +3,18 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 const BookingEvent = () => {
-  
   const navigate = useNavigate();
   const location = useLocation();
-  const queryParams = new URLSearchParams(location.search)
-  const packageId = queryParams.get("packageId")
+  const queryParams = new URLSearchParams(location.search);
+  const packageId = queryParams.get("packageId");
 
   const [selectedPackage, setSelectedPackage] = useState(null);
   const { id } = useParams();
   const [event, setEvent] = React.useState({});
+  const [errors, setErrors] = useState({});
+  const [submitError, setSubmitError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const [formData, setFormData] = useState({
     eventId: id,
     firstName: "",
@@ -36,18 +39,52 @@ const BookingEvent = () => {
     getEvents();
   }, []);
 
+  const isFormValid = areAllFieldsFilled && !errors.email && !errors.postalCode;
+
   const getEvents = async () => {
     try {
       const res = await fetch(
         `https://eventserviceventixe-a3dzg2fyc9hcc4dy.swedencentral-01.azurewebsites.net/api/events/${id}`
       );
-      if (!res.ok) throw new Error("Failed to fetch event data");
+      if (!res.ok) {
+        let errorMsg = "Failed to fetch event data";
+        try {
+          const errorData = await res.json();
+          if (errorData && errorData.message) {
+            errorMsg = errorData.message;
+          }
+        } catch {}
+        setSubmitError(errorMsg);
+        return;
+      }
 
       const data = await res.json();
       setEvent(data.result);
     } catch (error) {
-      console.error("Error fetching event data:", error);
+      setSubmitError(
+        error?.message || "Error fetching event data. Please try again later."
+      );
     }
+  };
+
+  const validate = (name, value) => {
+    let error = "";
+
+    if (name === "email") {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(value)) {
+        error = "Please enter a valid email address";
+      }
+    }
+
+    if (name === "postalCode") {
+      const swedishPostalCodeRegex = /^\d{3}\s?\d{2}$/;
+      if (!swedishPostalCodeRegex.test(value)) {
+        error = "Please provide a valid postal code, eg. 12345 or 123 45";
+      }
+    }
+
+    setErrors((prev) => ({ ...prev, [name]: error }));
   };
 
   useEffect(() => {
@@ -61,34 +98,67 @@ const BookingEvent = () => {
       setFormData((prev) => ({
         ...prev,
         packageId: selectedPackage.id,
-price: selectedPackage.price
+        price: selectedPackage.price,
       }));
     }
   }, [selectedPackage]);
 
   const fetchPackageDetails = async (packageId) => {
-    const res = await fetch(
-      `https://packageserviceventixe-gxd7f5h6dde3dxam.swedencentral-01.azurewebsites.net/api/packages/${packageId}`
-    );
-    if (res.ok) {
+    try {
+      const res = await fetch(
+        `https://packageserviceventixe-gxd7f5h6dde3dxam.swedencentral-01.azurewebsites.net/api/packages/${packageId}`
+      );
+      if (!res.ok) {
+        let errorMsg = "Failed to fetch package details";
+        try {
+          const errorData = await res.json();
+          if (errorData && errorData.message) {
+            errorMsg = errorData.message;
+          }
+        } catch {
+          errorMsg =
+            "An unexpected error occurred while fetching package details.";
+        }
+        setSelectedPackage(null);
+        setSubmitError(errorMsg);
+        return;
+      }
       const data = await res.json();
       setSelectedPackage(data.result);
-    } else {
+    } catch (error) {
       setSelectedPackage(null);
-      console.error("Package fetch failed", res.status);
+      setSubmitError(
+        error?.message ||
+          "Error fetching package details. Please try again later."
+      );
     }
   };
-  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    validate(name, value);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setSubmitError("");
+    setIsSubmitting(true);
+  
     try {
+      const payload = {
+        EventId: formData.eventId,
+        PackageId: formData.packageId,
+        FirstName: formData.firstName,
+        LastName: formData.lastName,
+        Email: formData.email,
+        Street: formData.street,
+        City: formData.city,
+        PostalCode: formData.postalCode,
+        TicketQuantity: formData.ticketQuantity,
+      };
+      console.log("Booking payload:", JSON.stringify(payload, null, 2));
+  
       const res = await fetch(
         `https://bookingservice-ventixe-czbphpafa4eyamb2.swedencentral-01.azurewebsites.net/api/bookings`,
         {
@@ -96,17 +166,45 @@ price: selectedPackage.price
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(formData),
+          body: JSON.stringify(payload),
         }
       );
+  
       if (!res.ok) {
-        console.error("Error posting booking data:");
-      } else {
-        console.log("Booking successful:");
-        navigate("/");
+        // Handle backend validation/logic errors
+        let errorMsg = "An error occurred. Please try again";
+        const text = await res.text();
+        console.error("Booking submission full error:", text);
+        try {
+          const errorData = JSON.parse(text);
+          if (errorData && errorData.message) {
+            errorMsg = errorData.message;
+          }
+        } catch {
+          errorMsg = text;
+        }
+        setSubmitError(errorMsg);
+        setIsSubmitting(false);
+        return;
+      }
+  
+      try {
+        const data = await res.json();
+        const bookingId = data.id;
+        if (bookingId) {
+          navigate(`/booking/confirmation/${bookingId}`);
+        } else {
+          navigate(`/booking/confirmation/`);
+        }
+      } catch (jsonErr) {
+        console.warn("Booking created, but no JSON in response.");
+        navigate(`/booking/confirmation/`);
       }
     } catch (error) {
-      console.error("Error submitting booking:", error);
+      setSubmitError(
+        "Network error: Could not submit booking. Please check your connection and try again."
+      );
+      setIsSubmitting(false);
     }
   };
 
@@ -149,6 +247,9 @@ price: selectedPackage.price
                 onChange={handleChange}
                 required
               />
+              {errors.email && (
+                <span className="error-message">{errors.email}</span>
+              )}
             </div>
             <div className="booking-form-field">
               <input
@@ -179,6 +280,9 @@ price: selectedPackage.price
                 onChange={handleChange}
                 required
               />
+              {errors.postalCode && (
+                <span className="error-message">{errors.postalCode}</span>
+              )}
             </div>
             <div className="booking-form-field quantity-field">
               <label htmlFor="ticketQuantity">Ticket Quantity</label>
@@ -222,16 +326,21 @@ price: selectedPackage.price
               </div>
             </div>
 
-            <button
-              className="booking-submit"
-              type="submit"
-              disabled={!areAllFieldsFilled}
-            >
-              Book Now
-            </button>
+            {submitError && (
+              <div className="submit-error-message">{submitError}</div>
+            )}
+            <div className="booking-submit-wrapper">
+              <button
+                className="booking-submit"
+                type="submit"
+                disabled={!isFormValid || isSubmitting}
+              >
+                Book Now
+              </button>
+            </div>
           </form>
           <div className="secure-booking">
-            <span class="material-symbols-outlined">lock</span>
+            <span className="material-symbols-outlined">lock</span>
             <p>Your booking is secure</p>
           </div>
         </div>
