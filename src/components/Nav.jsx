@@ -23,7 +23,7 @@ const Nav = () => {
         }
       >
         <span className="material-symbols-outlined">confirmation_number</span>
-        Events
+        <p>Events</p>
       </NavLink>
     </nav>
   );
