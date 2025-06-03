@@ -9,7 +9,7 @@ function Header() {
   let breadcrumb = null;
   let arrowBack = null;
 
-  if (pathname === "/") {
+  if (pathname === "/" || pathname === "/events") {
     headerText = "Events";
   } else if (pathname.startsWith("/events/booking")) {
     arrowBack = (
@@ -47,8 +47,7 @@ function Header() {
         <span>Event Details</span>
       </>
     );
-  } 
-  else if(pathname.startsWith("/booking/confirmation")){
+  } else if (pathname.startsWith("/booking/confirmation")) {
     arrowBack = (
       <Link to="/" className="arrow-back-link">
         <span className="material-symbols-outlined">arrow_back</span>
@@ -64,8 +63,7 @@ function Header() {
         <span>Order Confirmation</span>
       </>
     );
-  }
-  else {
+  } else {
     headerText = "Page Not Found";
   }
 

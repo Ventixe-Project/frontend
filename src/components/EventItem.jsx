@@ -33,6 +33,7 @@ useEffect(() => {
         <div className="event-card">
           <div className="event-header text">
             <p className="event-date">
+              <span className="material-symbols-outlined">event</span>
               {item.eventDate
                 ? `${new Date(item.eventDate).toLocaleDateString("en-US", {
                     year: "numeric",

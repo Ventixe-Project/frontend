@@ -11,9 +11,13 @@ function App() {
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<EventPage />} />
+        <Route path="events" element={<EventPage />} />
         <Route path="events/:id" element={<EventDetails />} />
         <Route path="events/booking/:id" element={<BookingEvent />} />
-        <Route path="booking/confirmation/:bookingId" element={<BookingConfirmationPage />} />
+        <Route
+          path="booking/confirmation/:bookingId"
+          element={<BookingConfirmationPage />}
+        />
       </Route>
     </Routes>
   );
