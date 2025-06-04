@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
 
 const BookingEvent = () => {
   const navigate = useNavigate();
@@ -10,7 +9,7 @@ const BookingEvent = () => {
 
   const [selectedPackage, setSelectedPackage] = useState(null);
   const { id } = useParams();
-  const [event, setEvent] = React.useState({});
+  const [event, setEvent] = useState({});
   const [errors, setErrors] = useState({});
   const [submitError, setSubmitError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -28,12 +27,12 @@ const BookingEvent = () => {
   });
 
   const areAllFieldsFilled =
-    formData.firstName !== "" &&
-    formData.lastName !== "" &&
-    formData.email !== "" &&
-    formData.street !== "" &&
-    formData.city !== "" &&
-    formData.postalCode !== "";
+    formData.firstName &&
+    formData.lastName &&
+    formData.email &&
+    formData.street &&
+    formData.city &&
+    formData.postalCode;
 
   useEffect(() => {
     getEvents();
@@ -50,14 +49,11 @@ const BookingEvent = () => {
         let errorMsg = "Failed to fetch event data";
         try {
           const errorData = await res.json();
-          if (errorData && errorData.message) {
-            errorMsg = errorData.message;
-          }
+          if (errorData && errorData.message) errorMsg = errorData.message;
         } catch {}
         setSubmitError(errorMsg);
         return;
       }
-
       const data = await res.json();
       setEvent(data.result);
     } catch (error) {
@@ -69,28 +65,21 @@ const BookingEvent = () => {
 
   const validate = (name, value) => {
     let error = "";
-
     if (name === "email") {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(value)) {
-        error = "Please enter a valid email address";
-      }
+      if (!emailRegex.test(value)) error = "Please enter a valid email address";
     }
-
     if (name === "postalCode") {
       const swedishPostalCodeRegex = /^\d{3}\s?\d{2}$/;
       if (!swedishPostalCodeRegex.test(value)) {
         error = "Please provide a valid postal code, eg. 12345 or 123 45";
       }
     }
-
     setErrors((prev) => ({ ...prev, [name]: error }));
   };
 
   useEffect(() => {
-    if (packageId) {
-      fetchPackageDetails(packageId);
-    }
+    if (packageId) fetchPackageDetails(packageId);
   }, [packageId]);
 
   useEffect(() => {
@@ -112,9 +101,7 @@ const BookingEvent = () => {
         let errorMsg = "Failed to fetch package details";
         try {
           const errorData = await res.json();
-          if (errorData && errorData.message) {
-            errorMsg = errorData.message;
-          }
+          if (errorData && errorData.message) errorMsg = errorData.message;
         } catch {
           errorMsg =
             "An unexpected error occurred while fetching package details.";
@@ -144,7 +131,7 @@ const BookingEvent = () => {
     e.preventDefault();
     setSubmitError("");
     setIsSubmitting(true);
-  
+
     try {
       const payload = {
         EventId: formData.eventId,
@@ -157,29 +144,22 @@ const BookingEvent = () => {
         PostalCode: formData.postalCode,
         TicketQuantity: formData.ticketQuantity,
       };
-      console.log("Booking payload:", JSON.stringify(payload, null, 2));
-  
+
       const res = await fetch(
         `https://bookingservice-ventixe-czbphpafa4eyamb2.swedencentral-01.azurewebsites.net/api/bookings`,
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
         }
       );
-  
+
       if (!res.ok) {
-        // Handle backend validation/logic errors
         let errorMsg = "An error occurred. Please try again";
         const text = await res.text();
-        console.error("Booking submission full error:", text);
         try {
           const errorData = JSON.parse(text);
-          if (errorData && errorData.message) {
-            errorMsg = errorData.message;
-          }
+          if (errorData && errorData.message) errorMsg = errorData.message;
         } catch {
           errorMsg = text;
         }
@@ -187,7 +167,7 @@ const BookingEvent = () => {
         setIsSubmitting(false);
         return;
       }
-  
+
       try {
         const data = await res.json();
         const bookingId = data.id;
@@ -196,8 +176,7 @@ const BookingEvent = () => {
         } else {
           navigate(`/booking/confirmation/`);
         }
-      } catch (jsonErr) {
-        console.warn("Booking created, but no JSON in response.");
+      } catch {
         navigate(`/booking/confirmation/`);
       }
     } catch (error) {
@@ -361,7 +340,6 @@ const BookingEvent = () => {
               <span className="summary-label">Event:</span>
               <span className="summary-value">{event.eventName || "-"}</span>
             </div>
-
             <div className="summary-row">
               <span className="summary-label">Date & Time:</span>
               <span className="summary-value">

@@ -10,15 +10,12 @@ const BookingConfirmationPage = () => {
   const [packageName, setPackageName] = useState("");
 
   useEffect(() => {
-    console.log("BookingId param:", bookingId); 
     const fetchBooking = async () => {
       try {
         const url = `https://bookingservice-ventixe-czbphpafa4eyamb2.swedencentral-01.azurewebsites.net/api/bookings/${bookingId}`;
-        console.log("Fetching booking from:", url);
         const res = await fetch(url);
     if (res.ok) {
       const data = await res.json();
-      console.log("Fetched booking data:", data);
       setBooking(data.result || data);
 
       fetch(`https://eventserviceventixe-a3dzg2fyc9hcc4dy.swedencentral-01.azurewebsites.net/api/events/${(data.result || data).eventId}`)
@@ -30,11 +27,9 @@ const BookingConfirmationPage = () => {
         .then(pkg => setPackageName(pkg.result?.packageName || ''));
       } else {
         const text = await res.text();
-        console.warn("Fetch failed. Status:", res.status, "Body:", text);
         setBooking(null);
       }
     } catch (err) {
-      console.error("Fetch threw an error:", err);
       setBooking(null);
     } finally {
       setLoading(false);

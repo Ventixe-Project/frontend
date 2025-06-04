@@ -3,6 +3,12 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import logo from "/src/images/logo/logo.svg";
 
+/**
+ * Custom React Hook: useIsMobile
+ * Created by ChatGPT to detect if the user is on a mobile device (viewport <= 767px).
+ * Sets up a resize event listener to update the state in real-time if the window is resized.
+ * Returns true if on mobile, false otherwise.
+ */
 function useIsMobile() {
   const [isMobile, setIsMobile] = useState(() => window.innerWidth <= 767);
 
@@ -22,16 +28,39 @@ const Nav = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  /**
+   * Determine which route/page the user is currently on.
+   * isEventsRoot: Home or events list ("/" or "/events")
+   * isBookingConfirmation: Booking confirmation page ("/booking/confirmation...")
+   */
   const isEventsRoot =
     location.pathname === "/" || location.pathname === "/events";
+  const isBookingConfirmation = location.pathname.startsWith(
+    "/booking/confirmation"
+  );
 
-  const showLogo = !isMobile || isEventsRoot;
-  const showBack = isMobile && !isEventsRoot;
+  /**
+   * Show logo if:
+   * - Not on mobile
+   * - or on the events root
+   * - or on booking confirmation page
+   */
+  const showLogo = !isMobile || isEventsRoot || isBookingConfirmation;
+
+  /**
+   * Show back arrow button if:
+   * - On mobile
+   * - NOT on events root
+   * - NOT on booking confirmation page (where a button already exists)
+   */
+  const showBack = isMobile && !isEventsRoot && !isBookingConfirmation;
 
   const getPageTitle = (pathname) => {
     if (pathname === "/" || pathname === "/events") return "Events";
     if (pathname.startsWith("/events/booking")) return "Booking";
     if (pathname.startsWith("/events/")) return "Event Details";
+    if (pathname.startsWith("/booking/confirmation"))
+      return "Order Confirmation";
     if (pathname.startsWith("/bookings")) return "Bookings";
     if (pathname.startsWith("/projects")) return "Projects";
     return "";
@@ -45,7 +74,7 @@ const Nav = () => {
         <NavLink
           to="/events"
           className={({ isActive }) =>
-            isEventsRoot
+            isEventsRoot || isBookingConfirmation
               ? "nav-link nav-logo-link active"
               : "nav-link nav-logo-link"
           }

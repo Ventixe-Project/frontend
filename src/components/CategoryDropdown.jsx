@@ -1,15 +1,26 @@
 import React, { useState, useRef, useEffect } from "react";
 
+
+// Dropdown created by ChatGPT
+
+/**
+* Props:
+*  - categories: Array of category strings to show as options.
+*  - selectedCategory: The currently selected category (string).
+*  - setSelectedCategory: Function to update selected category in parent.
+*  - placeholder: Placeholder text (default: "All Category").
+*/
+
 const CategoryDropdown = ({
   categories,
   selectedCategory,
   setSelectedCategory,
   placeholder = "All Category",
 }) => {
-  const [open, setOpen] = useState(false);
-  const ref = useRef();
+  const [open, setOpen] = useState(false); // Is dropdown open?
+  const ref = useRef(); // To detect clicks outside dropdown
 
-  // Close dropdown on outside click
+  // Close dropdown if user clicks outside of component
   useEffect(() => {
     const handleClick = (e) => {
       if (ref.current && !ref.current.contains(e.target)) setOpen(false);
