@@ -1,4 +1,3 @@
-import React from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import logo from "/src/images/logo/logo.svg";
@@ -73,7 +72,7 @@ const Nav = () => {
       {showLogo && (
         <NavLink
           to="/events"
-          className={({ isActive }) =>
+          className={() =>
             isEventsRoot || isBookingConfirmation
               ? "nav-link nav-logo-link active"
               : "nav-link nav-logo-link"
